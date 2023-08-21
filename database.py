@@ -4,8 +4,7 @@ from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
 
 class QUERY:
-    def __init__(self, query, schema, table):
-        self.query = query
+    def __init__(self, schema, table):
         self.schema = schema
         self.table = table
 
@@ -25,14 +24,14 @@ class DATABASE(QUERY):
             
             cursor.execute("SELECT 1")
             conn.commit()
+            print("CONNECTION SUCCESSFUL")
         except (psycopg2.OperationalError, psycopg2.InterfaceError):
             print("CONNECTION FAILED")
            
 
         return conn
 
-    def collect_data(self):
-        conn = self.connect_database()
+    def collect_data(self , conn):
         cursor = conn.cursor()
 
         
