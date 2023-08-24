@@ -60,5 +60,5 @@ class DATABASE(QUERY):
             return True
 
         except Exception as e:
-            print("Veriler güncellenirken bir hata oluştu:", str(e))
+            print("Error from update_logs: ", str(e))
             return False
