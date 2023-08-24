@@ -4,12 +4,13 @@ from psycopg2.extras import RealDictCursor
 from psycopg2 import sql
 
 class QUERY:
-    def __init__(self, schema, table):
-        self.schema = schema
-        self.table = table
+    def __init__(self, query=None):
+        self.query = query
+        
 
 class DATABASE(QUERY):
-    def connect_database(self):
+    @staticmethod
+    def connect_database():
         conn = psycopg2.connect(
             database=DATABASE_CONF.DATABASES['default']['NAME'],
             user=DATABASE_CONF.DATABASES['default']['USER'],
@@ -25,25 +26,39 @@ class DATABASE(QUERY):
             cursor.execute("SELECT 1")
             conn.commit()
             print("CONNECTION SUCCESSFUL")
-        except (psycopg2.OperationalError, psycopg2.InterfaceError):
+        except (psycopg2.OperationalError, psycopg2.InterfaceError , psycopg2.DatabaseError , psycopg2.ProgrammingError ):
             print("CONNECTION FAILED")
            
 
         return conn
-
-    def collect_data(self , conn):
-        cursor = conn.cursor()
+    
+    @staticmethod
+    def collect_data(query_vars , conn):
+        cursor = conn.cursor(cursor_factory = RealDictCursor)
 
         
-        query = sql.SQL("SELECT * FROM {}.{};").format(
-            sql.Identifier(self.schema),
-            sql.Identifier(self.table)
-        )
+        query = sql.SQL(query_vars.query)
+
 
         cursor.execute(query)
         collected_log_vars = cursor.fetchall()
 
-        
-        conn.close()
 
         return collected_log_vars
+
+    @staticmethod
+    def update_logs(query_vars, conn):
+        try:
+            cursor = conn.cursor()
+
+            query = sql.SQL(query_vars.query)
+
+            cursor.execute(query)
+
+            conn.commit()  # Değişiklikleri veritabanına kaydedin
+            
+            return True
+
+        except Exception as e:
+            print("Veriler güncellenirken bir hata oluştu:", str(e))
+            return False
