@@ -34,17 +34,20 @@ class DATABASE(QUERY):
     
     @staticmethod
     def collect_data(query_vars , conn):
-        cursor = conn.cursor(cursor_factory = RealDictCursor)
+        try:
+            cursor = conn.cursor(cursor_factory = RealDictCursor)
 
-        
-        query = sql.SQL(query_vars.query)
-
-
-        cursor.execute(query)
-        collected_log_vars = cursor.fetchall()
+            
+            query = sql.SQL(query_vars.query)
 
 
-        return collected_log_vars
+            cursor.execute(query)
+            collected_log_vars = cursor.fetchall()
+
+
+            return collected_log_vars
+        except:
+            print("Error from collect_data")
 
     @staticmethod
     def update_logs(query_vars, conn):
