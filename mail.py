@@ -62,7 +62,10 @@ class MailSend:
             msg.attach(MIMEText(email_content, 'html'))
 
             smtp.sendmail(msg['From'], msg['To'], msg.as_string())
+            print("E-posta başarıyla gönderildi.")
         except Exception as e:
             print("E-posta gönderilirken bir hata oluştu:", str(e))
         finally:
             return True
+        
+
