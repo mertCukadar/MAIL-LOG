@@ -1,6 +1,7 @@
 from enum import Enum
 import smtplib
 from email.mime.text import MIMEText
+import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from  settings import EMAIL_HOST 
@@ -25,7 +26,11 @@ class MailSend:
                 data_table = '<table style="border-collapse: collapse; width: 100%;">'
                 data_table += '<tr>'
                 for key in data_list[0].keys():
-                    data_table += f'<th style="border: 1px solid black; padding: 8px; text-align: left;">{key}</th>'
+                    if key == 'alarm_class':
+                        key = "alarm destination"
+                        data_table += f'<th style="border: 1px solid black; padding: 8px; text-align: left;">{key}</th>'
+                    else:
+                        data_table += f'<th style="border: 1px solid black; padding: 8px; text-align: left;">{key}</th>'
                 data_table += '</tr>'
                 for data in data_list:
                     data_table += '<tr>'
@@ -33,6 +38,10 @@ class MailSend:
                         if value == False:
                             data_table += f'<td style="border: 1px solid black; padding: 8px; text-align: left;">True</td>'
                         else:    
+                            data_table += f'<td style="border: 1px solid black; padding: 8px; text-align: left;">{value}</td>'
+                        if value == "":
+                            value = datetime.datetime.now()
+                            value = value.strftime("%Y-%m-%d %H:%M:%S")
                             data_table += f'<td style="border: 1px solid black; padding: 8px; text-align: left;">{value}</td>'
                     data_table += '</tr>'
                 data_table += '</table>'
