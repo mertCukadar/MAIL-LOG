@@ -3,7 +3,14 @@
 #pragma comment(lib, "ws2_32.lib")
 
 using namespace std;
-bool wsInit();
+bool wsInit() {
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        cerr << "WSAStartup failed.\n";
+        return false;
+    }
+    return true;
+}
 
 int main() {
         if (system("python -m venv env") == 0) {
