@@ -19,4 +19,4 @@ endif ()
 #2. cd build
 #3. cmake ..
 #4. cmake --build .
-#5. go to debug file run the .exe file
+#5. go to debug folder run the .exe file
