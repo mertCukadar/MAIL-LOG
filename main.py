@@ -7,21 +7,24 @@ from variables import VARIABLES
     
 if __name__ == '__main__':
     
+    
     while True:
-        # Create an instance for the QUERY class
-        query = """SELECT a.alarm_id, a.alarm_name, a.alarm_class, l.currentstate , l.logdate
-        FROM public.alarms a
-        INNER JOIN logs.aalm_table l ON a.alarm_id = l.aalm_id
-        WHERE l.currentstate = 1;
-        """
-        query_vars = QUERY(query=query)
-        
-        # Create an instance for the DATABASE class
-        conn = DATABASE.connect_database()
-        
-        #wait for 5 seconds before checking the alarm state
-        time.sleep(3)
-
+        try:
+            # Create an instance for the QUERY class
+            query = """SELECT a.alarm_id, a.alarm_name, a.alarm_class, l.currentstate , l.logdate
+            FROM public.alarms a
+            INNER JOIN logs.aalm_table l ON a.alarm_id = l.aalm_id
+            WHERE l.currentstate = 1;
+            """
+            query_vars = QUERY(query=query)
+            
+            # Create an instance for the DATABASE class
+            conn = DATABASE.connect_database()
+            
+            #wait for 5 seconds before checking the alarm state
+            time.sleep(3)
+        except:
+            pass
         
         try:
             
