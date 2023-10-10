@@ -21,6 +21,9 @@ class MailSend:
             msg['From'] = EMAIL_HOST['EMAIL_HOST_USER']
             msg['To'] = mail_to
 
+            tittleList = [] #write expected column tittles here be sure same lenght with data_list.values()
+            #after this phase change for each loop's data_list.keys() with your tittle list variable.
+
             # Verileri HTML tablosuna dönüştür
             if len(data_list) > 0:
                 data_table = '<table style="border-collapse: collapse; width: 100%;">'
