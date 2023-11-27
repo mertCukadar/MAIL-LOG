@@ -1,5 +1,8 @@
 env
 __pycache__
 settings.py
-
+dist/
 build/
+*.spec
+.DS_Store
+```
